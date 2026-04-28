@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -35,6 +35,7 @@ class TechemLatestReadingSensor(CoordinatorEntity[TechemCoordinator], SensorEnti
         self._attr_unique_id = self._sensor_key
         self._attr_name = f"{meter['location_label']} {meter['device_label']}"
         self._attr_native_unit_of_measurement = meter.get("measurement_unit")
+        self._attr_state_class = SensorStateClass.TOTAL_INCREASING
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, f"{coordinator.data.get('unit_id')}:{self._device_number}")},
             manufacturer="Techem",
@@ -42,7 +43,11 @@ class TechemLatestReadingSensor(CoordinatorEntity[TechemCoordinator], SensorEnti
             name=f"Techem {meter['location_label']} {meter['device_label']}",
             serial_number=self._device_number,
         )
-        if meter.get("measurement_unit") == "m³":
+        unit = meter.get("measurement_unit")
+        if unit in {"kWh", "Wh", "MWh", "GWh"}:
+            self._attr_device_class = SensorDeviceClass.ENERGY
+        elif unit == "m³":
+            self._attr_device_class = SensorDeviceClass.WATER
             self._attr_suggested_display_precision = 3
 
     def _meter(self) -> dict[str, Any] | None:

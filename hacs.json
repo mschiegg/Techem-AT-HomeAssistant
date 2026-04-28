@@ -1,0 +1,9 @@
+{
+  "name": "Techem AT",
+  "content_in_root": false,
+  "domains": [
+    "techem_at"
+  ],
+  "homeassistant": "2024.1.0",
+  "render_readme": true
+}

@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Techem AT",
+        "description": "Zugangsdaten fuer das Techem Kundenportal",
+        "data": {
+          "email": "E-Mail",
+          "password": "Passwort",
+          "scan_interval_minutes": "Abrufintervall (Minuten)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Login fehlgeschlagen",
+      "cannot_connect": "Verbindung fehlgeschlagen"
+    },
+    "abort": {
+      "already_configured": "Konto ist bereits eingerichtet"
+    }
+  }
+}
